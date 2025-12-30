@@ -1,8 +1,26 @@
 # Live Translate
 
-Live Translate is a real-time translation application that uses WebRTC VAD and Whisper to translate audio in real-time.
+Live Translate is a near-real-time translation application that uses WebRTC VAD and Whisper to translate audio in real-time.
 
 ---
+
+## Prerequisites
+Before installing, you may need to make sure you have installed the following system libraries for audio handling:
+
+**Ubuntu/Debian**
+```bash
+sudo apt-get install libportaudio2 libportaudio-dev portaudio19-dev
+```
+
+**Fedora**
+```bash
+sudo dnf install portaudio portaudio-devel
+```
+
+**macOS**
+```bash
+brew install portaudio
+```
 
 ## Installation
 **1. Clone and Enter the Repository**
@@ -14,15 +32,19 @@ cd Live-Translate
 **2. Create and Activate a Virtual Environment**
 ```bash
 python -m venv ./env
+# Windows
+.\env\Scripts\activate
+# Linux/Mac
 source ./env/bin/activate
 ```
 
 **3. Install Dependencies**
 ```bash
-pip install -r ./requirements.txt
+pip install -r requirements.txt
 ```
-
-**4. Run the Program**
+**4. Open `main.py` and modify the device index to match your audio device.**:
+You can find what index number your device is by running the following command `python -m sounddevice` - available after running `pip install -r requirements.txt`.
+**5. Run the Program**
 ```bash
 python main.py
 ```
