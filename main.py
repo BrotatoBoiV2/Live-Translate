@@ -65,7 +65,8 @@ def main():
                 if text:
                     print(f"Detected {lang} ({duration:.2f}s): {text}")
                 else:
-                    print("No speech detected.")
+                    pass
+                    # print("No speech detected.")
 
     except KeyboardInterrupt:
         print("\nRecording stopped by user.")

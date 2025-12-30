@@ -7,5 +7,4 @@ Note: All time is in UTC.
 
 
 # TODO:
-    - Reduce output for a less noisy translation experience.
     - Allow for internal audio input.
