@@ -43,7 +43,7 @@ def main():
     """
 
     # ~ Initialize the audio stream, VAD, and translation engine. ~ #
-    recorder = AudioStream(device_index=5)
+    recorder = AudioStream(device_index=5) # Add a device selector for universla device indexing.
     vad_gate = VADController()
     engine = Translator()
 
