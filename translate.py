@@ -28,21 +28,49 @@
 """
 
 
+# ~ Import Third-Party Modules. ~ #
 from faster_whisper import WhisperModel
 import numpy as np
 
+
 class Translator:
+    """
+        This class handles the translation of audio chunks.
+
+        Functions:
+            __init__
+            transcribe_chunk
+    """
+
     def __init__(self):
+        """
+            Initializes the Translator class.
+
+            Attributes:
+                model (WhisperModel): The Whisper model used for translation.
+        """
+
         self.model = WhisperModel("small", device="cpu", compute_type="int8")
 
     def transcribe_chunk(self, audio_bytes):
+        """
+            Transcribes an audio chunk and returns the text and language if it is not English.
+
+            Args:
+                audio_bytes (bytes): The audio chunk to transcribe.
+
+            Returns:
+                text (str): The transcribed text.
+                lang (str): The detected language.
+        """
+
         audio_np = np.frombuffer(audio_bytes, dtype=np.int16).astype(np.float32) / 32768.0
         
-        segments, info = self.model.transcribe(audio_np, task="translate", beam_size=1) # ~ Transcribe the audio. ~ #
+        segments, info = self.model.transcribe(audio_np, task="translate", beam_size=1)
         
         if info.language == "en":
             return None, None
         
-        text = "".join([segment.text for segment in segments]) # ~ Join the segments into a single string. ~ #
+        text = "".join([segment.text for segment in segments])
 
-        return text.strip(), info.language # ~ Return the text and the language. ~ #
+        return text.strip(), info.language

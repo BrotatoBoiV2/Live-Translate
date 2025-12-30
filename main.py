@@ -28,13 +28,21 @@
 """
 
 
+# ~ Import System Modules. ~ #
 import time
+
+# ~ Import Local Modules. ~ #
 from audio_stream import AudioStream
 from vad_module import VADController
 from translate import Translator
 
 
 def main():
+    """
+        The main loop for the translation program.
+    """
+
+    # ~ Initialize the audio stream, VAD, and translation engine. ~ #
     recorder = AudioStream(device_index=5)
     vad_gate = VADController()
     engine = Translator()
@@ -43,8 +51,10 @@ def main():
 
     print("Now recording for audio...")
 
+    # ~ Attempt to run the main loop. ~ #
     try:
         while True:
+            # ~ Get the next chunk of audio and check for phrases. ~ #
             chunk = recorder.get_next_chunk()
             phrase = vad_gate.process_chunk(chunk)
 
@@ -53,7 +63,7 @@ def main():
                 text, lang = engine.transcribe_chunk(phrase)
                 
                 if text:
-                    print(f"Detected {lang}: {text}")
+                    print(f"Detected {lang} ({duration:.2f}s): {text}")
                 else:
                     print("No speech detected.")
 
@@ -62,6 +72,7 @@ def main():
 
     finally:
         recorder.stop()
+
 
 if __name__ == "__main__":
     main()

@@ -28,13 +28,39 @@
 """
 
 
-import webrtcvad
+# ~ import System Modules. ~ #
 from collections import deque
+
+# ~ Import Third-Party Modules. ~ #
 import numpy as np
+import webrtcvad
 
 
 class VADController:
+    """
+        This class handles the Voice Activity Detection (VAD) for the audio stream.
+
+        Functions:
+            __init__
+            process_chunk
+    """
+
     def __init__(self, sensitivity=3):
+        """
+            Initializes the VADController class.
+
+            Args:
+                sensitivity (int): The sensitivity of the VAD.
+
+            Attributes:
+                vad (webrtcvad.Vad): The VAD object.
+                in_phrase (bool): Whether a phrase is currently being detected.
+                pre_roll (deque): A deque for storing the pre-roll audio.
+                post_roll (int): The number of chunks to store in the post-roll buffer.
+                silence_counter (int): The number of consecutive silent chunks.
+                current_phrase (list): The current phrase being detected.
+        """
+
         self.vad = webrtcvad.Vad(sensitivity)
         self.in_phrase = False
         
@@ -47,7 +73,19 @@ class VADController:
         self.current_phrase = []
 
     def process_chunk(self, chunk_bytes):
+        """
+            Processes a chunk of audio data.
+
+            Args:
+                chunk_bytes (bytes): The audio chunk to process.
+
+            Returns:
+                phrase (bytes): The detected phrase, or None if no phrase was detected.
+        """
+
         audio_data = np.frombuffer(chunk_bytes, dtype=np.int16)
+        
+        # ~ Obtain the Root Mean Square (RMS) of the audio data. ~ #
         rms = np.sqrt(np.mean(audio_data.astype(np.float32)**2))
 
         if rms < 500:
