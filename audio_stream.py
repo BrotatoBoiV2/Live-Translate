@@ -78,6 +78,27 @@ class AudioStream:
         self.stream = None
         self._is_running = False
 
+    @staticmethod
+    def select_audio_device():
+        devices = sd.query_devices()
+        dev_list = {}
+
+        for i, device in enumerate(devices):
+            dev_list[i] = device
+
+        print(devices)
+        
+        selection = input("Select an index number >>> ")
+
+        if selection.isdigit():
+            selection = int(selection)
+            if selection in dev_list.keys():
+                return selection
+        
+        print(f"Using default device: {sd.default.device[0]}")
+
+        return None
+
     def get_resampled_chunk(self):
         """
             Fetches 44.1k data and returns 16k datafor VAD/Whisper.
