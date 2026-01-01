@@ -66,4 +66,3 @@ This project was created by a human and refined with the help of AI tools.
 The following repos made this project possible:
 - [WebRTC VAD](https://github.com/wiseman/py-webrtcvad)
 - [Whisper](https://github.com/openai/whisper)
-- [Faster Whisper](https://github.com/cybertronai/faster-whisper)
